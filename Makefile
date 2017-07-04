@@ -1,6 +1,6 @@
 GPU=0
 CUDNN=0
-OPENCV=0
+OPENCV=1
 DEBUG=0
 
 ARCH= -gencode arch=compute_20,code=[sm_20,sm_21] \
@@ -13,10 +13,10 @@ ARCH= -gencode arch=compute_20,code=[sm_20,sm_21] \
 # ARCH= -gencode arch=compute_52,code=compute_52
 
 VPATH=./src/:./examples
-SLIB=libdarknet.so
-ALIB=libdarknet.a
-EXEC=darknet
-OBJDIR=./obj/
+SLIB=./build/libdarknet.so
+ALIB=./build/libdarknet.a
+EXEC=./build/darknet
+OBJDIR=./build/obj/
 
 CC=gcc
 NVCC=nvcc --compiler-options '-fPIC'
@@ -82,11 +82,11 @@ $(OBJDIR)%.o: %.cu $(DEPS)
 	$(NVCC) $(ARCH) $(COMMON) --compiler-options "$(CFLAGS)" -c $< -o $@
 
 obj:
-	mkdir -p obj
+	mkdir -p build/obj
 backup:
-	mkdir -p backup
+	mkdir -p build/backup
 results:
-	mkdir -p results
+	mkdir -p build/results
 
 .PHONY: clean
 
